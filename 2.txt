@@ -3,3 +3,6 @@ commit branch2
 
 
 CONFLITO REMOTO
+
+
+CONFLITO LOCAL
