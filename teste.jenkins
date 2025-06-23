@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Echo') {
             steps {
-                echo 'Teste borabiilll zero doi prraa foi?'
+                echo 'Teste borabiilll zero doi prraa foi? não'
             }
         }
     }
