@@ -8,9 +8,13 @@ pipeline {
   stages {
     stage('Notificar Discord: Subindo maquinas') {
       steps {
-        sh '''
-          curl -H "Content-Type: application/json" -X POST -d '{"content": "Novo push na branch ${env.GIT_BRANCH} (Build #'"${BUILD_NUMBER}"')."}' ${DISCORD_WEBHOOK}
-        '''
+        script {
+          sh """
+            curl -H "Content-Type: application/json" -X POST -d '{
+              \"content\": \"Novo push na branch ${env.GIT_BRANCH} (Build #${env.BUILD_NUMBER}).\"
+            }' ${DISCORD_WEBHOOK}
+          """
+        }
       }
     }
 
@@ -23,15 +27,22 @@ pipeline {
 
   post {
     success {
-      sh '''
-        curl -H "Content-Type: application/json" -X POST -d '{"content": "Push na branch ${env.GIT_BRANCH} realizado com successo (Build #'"${BUILD_NUMBER}"')."}' ${DISCORD_WEBHOOK}
-      '''
+      script {
+        sh """
+          curl -H "Content-Type: application/json" -X POST -d '{
+            \"content\": \"Push na branch ${env.GIT_BRANCH} realizado com sucesso (Build #${env.BUILD_NUMBER}).\"
+          }' ${DISCORD_WEBHOOK}
+        """
+      }
     }
     failure {
-      sh '''
-        curl -H "Content-Type: application/json" -X POST -d '{"content": "❌ Falha (Build #'"${BUILD_NUMBER}"'). Verifique o Jenkins."}' ${DISCORD_WEBHOOK}
-      '''
+      script {
+        sh """
+          curl -H "Content-Type: application/json" -X POST -d '{
+            \"content\": \"❌ Falha (Build #${env.BUILD_NUMBER}). Verifique o Jenkins.\"
+          }' ${DISCORD_WEBHOOK}
+        """
+      }
     }
   }
 }
-
